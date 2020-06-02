@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 import time
@@ -7,7 +6,7 @@ import paramiko
 import logging
 import multiprocessing
 
-hostname = ['172.16.202.14', '172.16.202.15', '172.16.202.16']
+hostname = ['172.16.202.11', '172.16.202.12', '172.16.202.13']
 
 port = '22'
 username = 'hcd'
@@ -39,7 +38,8 @@ class RemoteLink():
                             filename='NetworkJitter.log',
                             filemode='w',
                             level=logging.INFO)
-        print(time.time())
+        
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
         
     def ssh_connect(self):
 
@@ -54,8 +54,7 @@ class RemoteLink():
         
         ssh.close()
 
-        # return out,err    
-    
+
     def Set_Mixed_Jitter(self, ssh, interval):
         while 1:
             
@@ -64,36 +63,41 @@ class RemoteLink():
                 self.Print_time()
                 logging.info(self.hostname + " Set Delay Packet" + '\n')
                 print(self.hostname + " Set Delay Packet")
-                stdin, stdout, stderr = ssh.exec_command(delay_ex_cmd)
+                stdin, stdout, stderr = ssh.exec_command(delay_in_cmd)
             
             if option == 2:
                 self.Print_time()
                 logging.info(self.hostname + " Set Loss Packet" + '\n')
                 print(self.hostname + " Set Delay Packet")
-                stdin, stdout, stderr = ssh.exec_command(loss_ex_cmd)
+                stdin, stdout, stderr = ssh.exec_command(loss_in_cmd)
                 
             if option == 3:
                 self.Print_time()
                 logging.info(self.hostname + " Set Duplicate Packet" + '\n')
                 print(self.hostname + " Set Duplicate Packet" + '\n')
-                stdin, stdout, stderr = ssh.exec_command(dup_ex_cmd)
+                stdin, stdout, stderr = ssh.exec_command(dup_in_cmd)
                 
             if option == 4:
                 self.Print_time()
                 logging.info(self.hostname + " Set Corrupt Packet" + '\n')
                 print(self.hostname + " Set Corrupt Packet")
-                stdin, stdout, stderr = ssh.exec_command(corrupt_ex_cmd)
+                stdin, stdout, stderr = ssh.exec_command(corrupt_in_cmd)
                 
             if option == 5:
                 self.Print_time()
                 logging.info(self.hostname + " Set Scambled Packet" + '\n')
                 print(self.hostname + " Set Scambled Packet")
-                stdin, stdout, stderr = ssh.exec_command(scambled_ex_cmd)
+                stdin, stdout, stderr = ssh.exec_command(scambled_in_cmd)
+            
+            
             
             
             time.sleep(interval)
             stdin, stdout, stderr = ssh.exec_command(clean_ex_cmd)
             time.sleep(interval)     
+
+
+
 
 
 link=[]
@@ -104,9 +108,8 @@ link3=RemoteLink(hostname[2], port, username, password, 60)
 link.append(link1)
 link.append(link2)
 link.append(link3)
-# link1.ssh_connect()
-# link2.ssh_connect()
-# link3.ssh_connect()
+
+
 def worker_1():
     link1.ssh_connect()
 
