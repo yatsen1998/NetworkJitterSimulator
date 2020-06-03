@@ -26,12 +26,13 @@ clean_ex_cmd = "sudo tc qdisc del dev enp1s0f0 root"
 clean_in_cmd = "sudo tc qdisc del dev ib0 root"
 
 class RemoteLink():
-    def __init__(self, hostname, port, username, password, interval):
+    def __init__(self, hostname, port, username, password, interval, timer):
         self.hostname = hostname
         self.port = port
         self.username = username
         self.password = password
         self.interval = interval
+        self.timer = timer
     
     def Print_time(self):
         logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s',
@@ -49,13 +50,14 @@ class RemoteLink():
         # stdin, stdout, stderr = ssh.exec_command("pwd")
         # print(stdin)
         
-        self.Set_Mixed_Jitter(ssh, self.interval)
+        self.Set_Mixed_Jitter(ssh, self.interval, timer)
         stdin, stdout, stderr = ssh.exec_command(clean_ex_cmd)
         
         ssh.close()
 
 
-    def Set_Mixed_Jitter(self, ssh, interval):
+    def Set_Mixed_Jitter(self, ssh, interval, timer):
+        timeout = time.time() + timer
         while 1:
             
             option = random.randint(1,5)
@@ -89,8 +91,8 @@ class RemoteLink():
                 print(self.hostname + " Set Scambled Packet")
                 stdin, stdout, stderr = ssh.exec_command(scambled_in_cmd)
             
-            
-            
+            if time.time() > timeout:
+                break
             
             time.sleep(interval)
             stdin, stdout, stderr = ssh.exec_command(clean_ex_cmd)
@@ -101,9 +103,9 @@ class RemoteLink():
 
 
 link=[]
-link1=RemoteLink(hostname[0], port, username, password, 60)
-link2=RemoteLink(hostname[1], port, username, password, 60)
-link3=RemoteLink(hostname[2], port, username, password, 60)
+link1=RemoteLink(hostname[0], port, username, password, 60, 600)
+link2=RemoteLink(hostname[1], port, username, password, 60, 600)
+link3=RemoteLink(hostname[2], port, username, password, 60, 600)
 
 link.append(link1)
 link.append(link2)
