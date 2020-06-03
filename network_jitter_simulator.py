@@ -6,7 +6,7 @@ import paramiko
 import logging
 import multiprocessing
 
-hostname = ['172.16.202.11', '172.16.202.12', '172.16.202.13']
+hostname = ['172.16.202.14', '172.16.202.15', '172.16.202.16']
 
 port = '22'
 username = 'hcd'
