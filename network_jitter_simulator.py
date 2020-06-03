@@ -50,7 +50,7 @@ class RemoteLink():
         # stdin, stdout, stderr = ssh.exec_command("pwd")
         # print(stdin)
         
-        self.Set_Mixed_Jitter(ssh, self.interval, timer)
+        self.Set_Mixed_Jitter(ssh, self.interval, self.timer)
         stdin, stdout, stderr = ssh.exec_command(clean_ex_cmd)
         
         ssh.close()
