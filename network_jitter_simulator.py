@@ -40,7 +40,7 @@ class RemoteLink():
                             filemode='w',
                             level=logging.INFO)
         
-        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),'')
         
     def ssh_connect(self):
 
@@ -52,6 +52,7 @@ class RemoteLink():
         
         self.Set_Mixed_Jitter(ssh, self.interval, self.timer)
         stdin, stdout, stderr = ssh.exec_command(clean_ex_cmd)
+        stdin, stdout, stderr = ssh.exec_command(clean_in_cmd)
         
         ssh.close()
 
@@ -76,7 +77,7 @@ class RemoteLink():
             if option == 3:
                 self.Print_time()
                 logging.info(self.hostname + " Set Duplicate Packet" + '\n')
-                print(self.hostname + " Set Duplicate Packet" + '\n')
+                print(self.hostname + " Set Duplicate Packet")
                 stdin, stdout, stderr = ssh.exec_command(dup_in_cmd)
                 
             if option == 4:
@@ -96,6 +97,7 @@ class RemoteLink():
             
             time.sleep(interval)
             stdin, stdout, stderr = ssh.exec_command(clean_ex_cmd)
+            stdin, stdout, stderr = ssh.exec_command(clean_in_cmd)
             time.sleep(interval)     
 
 
@@ -125,9 +127,11 @@ if __name__ == "__main__":
     p1 = multiprocessing.Process(target = worker_1, args = ())
     p2 = multiprocessing.Process(target = worker_2, args = ())
     p3 = multiprocessing.Process(target = worker_3, args = ())
-
+    p1.daemon(True)
     p1.start()
+    p2.daemon(True)
     p2.start()
+    p3.daemon(True)
     p3.start()
 
     for p in multiprocessing.active_children():
