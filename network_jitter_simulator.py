@@ -127,11 +127,11 @@ if __name__ == "__main__":
     p1 = multiprocessing.Process(target = worker_1, args = ())
     p2 = multiprocessing.Process(target = worker_2, args = ())
     p3 = multiprocessing.Process(target = worker_3, args = ())
-    p1.daemon(True)
+    p1.daemon=True
     p1.start()
-    p2.daemon(True)
+    p2.daemon=True
     p2.start()
-    p3.daemon(True)
+    p3.daemon=True
     p3.start()
 
     for p in multiprocessing.active_children():
