@@ -1,139 +1,200 @@
 # -*- coding: utf-8 -*-
 
 import time
+import json
 import random
 import paramiko
 import logging
-import multiprocessing
+import threading
 
-hostname = ['172.16.202.14', '172.16.202.15', '172.16.202.16']
+from config_reader import ReadConfig
 
-port = '22'
-username = 'hcd'
-password = 'hcd'
 
-delay_ex_cmd = "sudo tc qdisc add dev enp1s0f0 root netem delay 10ms 5ms 5%"
-delay_in_cmd = "sudo tc qdisc add dev ib0 root netem delay 10ms 5ms 10%"
-loss_ex_cmd = "sudo tc qdisc add dev enp1s0f0 root netem loss 20%"
-loss_in_cmd = "sudo tc qdisc add dev ib0 root netem loss 20%"
-dup_ex_cmd = "sudo tc qdisc add dev enp1s0f0 root netem duplicate 20%"
-dup_in_cmd = "sudo tc qdisc add dev ib0 root netem duplicate 20%"
-corrupt_ex_cmd = "sudo tc qdisc add dev enp1s0f0 root netem corrupt 20%"
-corrupt_in_cmd = "sudo tc qdisc add dev ib0 root netem corrupt 20%"
-scambled_ex_cmd = "sudo tc qdisc add dev enp1s0f0 root netem delay 10ms reorder 20% 20%"
-scambled_in_cmd = "sudo tc qdisc add dev ib0 root netem delay 10ms reorder 20% 20%"
-clean_ex_cmd = "sudo tc qdisc del dev enp1s0f0 root"
-clean_in_cmd = "sudo tc qdisc del dev ib0 root"
+# corrupt_ex_cmd = "sudo tc qdisc add dev enp1s0f0 root netem corrupt 20%"
+# corrupt_in_cmd = "sudo tc qdisc add dev ib0 root netem corrupt 20%"
+# scambled_ex_cmd = "sudo tc qdisc add dev enp1s0f0 root netem delay 10ms reorder 20% 20%"
+# scambled_in_cmd = "sudo tc qdisc add dev ib0 root netem delsay 10ms reorder 20% 20%"
+# clean_ex_cmd = "sudo tc qdisc del dev enp1s0f0 root"
+# clean_in_cmd = "sudo tc qdisc del dev ib0 root"
+         
+cluster_info = ReadConfig('config.json')
+cluster_info.parse()
 
-class RemoteLink():
-    def __init__(self, hostname, port, username, password, interval, timer):
+
+class TestJudge:
+    """
+        Judge whether the test pass
+    """
+    pass
+
+class RemoteLink:
+    
+    #创建sshclient
+    ssh = paramiko.SSHClient()
+    
+    def __init__(self, hostname, port, username, password,
+                       interval, elapse_time, ex_NIC, in_NIC):
+        
         self.hostname = hostname
-        self.port = port
+        self.port = port   
         self.username = username
         self.password = password
         self.interval = interval
-        self.timer = timer
-    
-    def Print_time(self):
-        logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s',
-                            filename='NetworkJitter.log',
-                            filemode='w',
-                            level=logging.INFO)
+        self.elapse_time = elapse_time
+        self.ex_NIC = ex_NIC
+        self.in_NIC = in_NIC
         
-        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),'')
-        
-    def ssh_connect(self):
 
-        ssh = paramiko.SSHClient()   #创建sshclient
+    def ssh_loader(self, ssh):
+
+        
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())  
         ssh.connect(self.hostname, self.port, self.username, self.password)
+        print("SSH to "+ self.hostname)
         # stdin, stdout, stderr = ssh.exec_command("pwd")
         # print(stdin)
         
-        self.Set_Mixed_Jitter(ssh, self.interval, self.timer)
-        stdin, stdout, stderr = ssh.exec_command(clean_ex_cmd)
-        stdin, stdout, stderr = ssh.exec_command(clean_in_cmd)
+        #self.test_set_delay_ex(ssh, self.interval, self.elapse_time)
+
+
+
+    def test_set_delay_ex(self,ssh):
+        """
+            Testcase1: set delayed packet to external NIC
+
+        """
+        # self.print_time()
+        #logging.info(self.hostname + " Set Delay Packet" + '\n')
+        print(self.hostname + " Set Delay Packet to "+ self.ex_NIC)
         
-        ssh.close()
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.ex_NIC +
+                                                 " root netem delay 10ms 5ms 5%")
+    
+    def test_set_delay_in(self,ssh):
+        """
+            Testcase2: set delayed packet to internal NIC
 
+        """
+        print(self.hostname + " Set Delay Packet to "+ self.in_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.in_NIC +
+                                                 " root netem delay 10ms 5ms 5%")
+    
+    def test_set_loss_ex(self,ssh):
+        print(self.hostname + " Set Packet Loss to "+ self.ex_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.ex_NIC +
+                                                 " root netem loss 20%")
 
-    def Set_Mixed_Jitter(self, ssh, interval, timer):
-        timeout = time.time() + timer
+    def test_set_loss_ex(self,ssh):
+        print(self.hostname + " Set Packet Loss to "+ self.ex_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.ex_NIC +
+                                                 " root netem loss 20%")
+
+    def test_set_loss_in(self,ssh):
+        print(self.hostname + " Set Packet Loss to "+ self.in_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.in_NIC +
+                                                 " root netem loss 20%")
+    
+    def test_set_dup_ex(self,ssh):
+        print(self.hostname + " Set Duplicate Packet to "+ self.ex_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.ex_NIC +
+                                                 " root netem duplicate 20%")
+    
+    def test_set_dup_in(self,ssh):
+        print(self.hostname + " Set Duplicate Packet to "+ self.in_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.in_NIC +
+                                                 " root netem duplicate 20%")
+    
+    def test_set_corrupt_ex(self,ssh):
+        print(self.hostname + " Set Corrupt Packet to "+ self.ex_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.EX_NIC +
+                                                 " root netem corrupt 20%")
+    
+    def test_set_corrupt_in(self,ssh):
+        print(self.hostname + " Set Corrupt Packet to "+ self.in_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.in_NIC +
+                                                 " root netem corrupt 20%")
+    
+    def test_set_scrambled_ex(self,ssh):
+        print(self.hostname + " Set Scrambled Packet to "+ self.ex_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.ex_NIC +
+                                                 " root netem reorder 20% 20%")
+    
+    def test_set_scrambled_in(self,ssh):
+        print(self.hostname + " Set Scrambled Packet to "+ self.in_NIC)
+        
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
+                                                 self.ex_NIC +
+                                                 " root netem reorder 20% 20%")
+    
+    def clean_ex(self,ssh):
+        print(self.hostname + "Clean command "+ self.ex_NIC)
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc del dev " + 
+                                                 self.ex_NIC + " root")
+    
+    def clean_in(self,ssh):
+        print(self.hostname + "Clean command "+ self.in_NIC)
+        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc del dev " + 
+                                                 self.in_NIC + " root")
+        
+
+    def test_set_mixed_jitter(self, ssh, interval, elapse_time):
+        
+        timeout = time.time() + elapse_time
+        Rule_map = ["test_set_delay_ex","test_set_delay_in",
+                    "test_set_loss_ex","test_set_loss_in",
+                    "test_set_dup_ex","test_set_dup_in",
+                    "test_set_corrupt_ex","test_set_corrupt_in",
+                    "test_set_scrambled_ex","test_set_scrambled_in"]
         while 1:
-            
-            option = random.randint(1,5)
-            if option == 1:
-                self.Print_time()
-                logging.info(self.hostname + " Set Delay Packet" + '\n')
-                print(self.hostname + " Set Delay Packet")
-                stdin, stdout, stderr = ssh.exec_command(delay_in_cmd)
-            
-            if option == 2:
-                self.Print_time()
-                logging.info(self.hostname + " Set Loss Packet" + '\n')
-                print(self.hostname + " Set Delay Packet")
-                stdin, stdout, stderr = ssh.exec_command(loss_in_cmd)
-                
-            if option == 3:
-                self.Print_time()
-                logging.info(self.hostname + " Set Duplicate Packet" + '\n')
-                print(self.hostname + " Set Duplicate Packet")
-                stdin, stdout, stderr = ssh.exec_command(dup_in_cmd)
-                
-            if option == 4:
-                self.Print_time()
-                logging.info(self.hostname + " Set Corrupt Packet" + '\n')
-                print(self.hostname + " Set Corrupt Packet")
-                stdin, stdout, stderr = ssh.exec_command(corrupt_in_cmd)
-                
-            if option == 5:
-                self.Print_time()
-                logging.info(self.hostname + " Set Scambled Packet" + '\n')
-                print(self.hostname + " Set Scambled Packet")
-                stdin, stdout, stderr = ssh.exec_command(scambled_in_cmd)
+            eval("self."+random.choice(Rule_map))(ssh)
             
             if time.time() > timeout:
                 break
             
             time.sleep(interval)
-            stdin, stdout, stderr = ssh.exec_command(clean_ex_cmd)
-            stdin, stdout, stderr = ssh.exec_command(clean_in_cmd)
+            self.clean_ex()
+            self.clean_in()
             time.sleep(interval)     
 
+    def run(self):
+        self.ssh_loader(self.ssh)
+        while 1:
+            self.test_set_mixed_jitter(self.ssh, self.interval, self.elapse_time)
+            
+        self.clean_ex()
+        self.clean_in()
+    
+        self.ssh.close()
 
 
 
 
-link=[]
-link1=RemoteLink(hostname[0], port, username, password, 60, 600)
-link2=RemoteLink(hostname[1], port, username, password, 60, 600)
-link3=RemoteLink(hostname[2], port, username, password, 60, 600)
+link=RemoteLink(cluster_info.hosts[0], 
+                cluster_info.port, 
+                cluster_info.userName, 
+                cluster_info.passWord, 
+                cluster_info.interval, 
+                cluster_info.elapseTime,
+                cluster_info.NICInfo['external_NIC'],
+                cluster_info.NICInfo['internal_NIC'])
 
-link.append(link1)
-link.append(link2)
-link.append(link3)
-
-
-def worker_1():
-    link1.ssh_connect()
-
-def worker_2():
-    link2.ssh_connect()
-
-def worker_3():
-    link3.ssh_connect()
-
-if __name__ == "__main__":
-    p1 = multiprocessing.Process(target = worker_1, args = ())
-    p2 = multiprocessing.Process(target = worker_2, args = ())
-    p3 = multiprocessing.Process(target = worker_3, args = ())
-    p1.daemon=True
-    p1.start()
-    p2.daemon=True
-    p2.start()
-    p3.daemon=True
-    p3.start()
-
-    for p in multiprocessing.active_children():
-        print("child   p.name:" + p.name + "\tp.id" + str(p.pid))
-
+link.run()
