@@ -5,7 +5,7 @@
 	"userName":"hcd",
 	"passWord":"hcd",
 	"interval":5,
-	"elapseTime":600,
+	"elapseTime":60,
 	"NICInfo":{
 		"external_NIC":"enp1s0f0",
 		"internal_NIC":"ib0"
