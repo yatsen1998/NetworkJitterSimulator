@@ -198,11 +198,11 @@ class networkJitter:
     
         self.ssh.ssh_close()
 
-networkjitter=networkJitter(
+jitter=networkJitter(
                 ssh,
                 cluster_info.interval, 
                 cluster_info.elapseTime,
                 cluster_info.NICInfo['external_NIC'],
                 cluster_info.NICInfo['internal_NIC'])
 
-networkJitter.run()
+jitter.run()
