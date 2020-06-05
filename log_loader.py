@@ -18,7 +18,7 @@ logger.addHandler(console)
 class logInit:
     
     
-    def __init__():
-        pass
+    def __init__(self):
+        self.logger = logging.getLogger()
         
         

@@ -22,5 +22,3 @@ class remoteLink:
         
         return ssh
         
-    def ssh_close(self,ssh):
-        ssh.close()
