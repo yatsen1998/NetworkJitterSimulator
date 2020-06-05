@@ -3,7 +3,7 @@ import os
 import sys
 import json
 
-class ReadConfig():
+class readConfig():
     def __init__(self, filename):
         self.configPath = filename
         self.clusterId = None

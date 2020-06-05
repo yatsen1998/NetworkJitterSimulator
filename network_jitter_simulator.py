@@ -2,50 +2,35 @@
 
 import time
 import random
-import paramiko
 
-from config_reader import ReadConfig
+from config_reader import readConfig
+from remote_linker import remoteLink
+#from log_loader import logInit
          
-cluster_info = ReadConfig('config.json')
+cluster_info = readConfig('config.json')
 cluster_info.parse()
+
+linker = remoteLink()
+ssh = linker.ssh_loader()
 
 
 class TestJudge:
     """
-        Judge whether the test pass
+        Judge whether the test passes
         HCLI base on python2.7 ?
     """
     pass
 
-class RemoteLink:
+class networkJitter:
     
     #创建sshclient
-    ssh = paramiko.SSHClient()
     
-    def __init__(self, hostname, port, username, password,
-                       interval, elapse_time, ex_NIC, in_NIC):
-        
-        self.hostname = hostname
-        self.port = port   
-        self.username = username
-        self.password = password
+    def __init__(self, ssh, interval, elapse_time, ex_NIC, in_NIC):
+        self.ssh = ssh
         self.interval = interval
         self.elapse_time = elapse_time
         self.ex_NIC = ex_NIC
-        self.in_NIC = in_NIC
-        
-
-    def ssh_loader(self, ssh):
-        
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())  
-        ssh.connect(self.hostname, self.port, self.username, self.password)
-        print("SSH to "+ self.hostname)
-        # stdin, stdout, stderr = ssh.exec_command("pwd")
-        # print(stdin)
-        
-        #self.test_set_delay_ex(ssh, self.interval, self.elapse_time)
-
-
+        self.in_NIC = in_NIC    
 
     def test_set_delay_ex(self,ssh):
         """
@@ -182,6 +167,7 @@ class RemoteLink:
     def test_set_mixed_jitter(self, ssh, interval, elapse_time):
         """
             Testcase11: set a network condition to certain NIC
+            
         """
         timeout = time.time() + elapse_time
         Rule_map = ["test_set_delay_ex","test_set_delay_in",
@@ -201,22 +187,19 @@ class RemoteLink:
             time.sleep(interval)     
 
     def run(self):
-        self.ssh_loader(self.ssh)
         while 1:
             self.test_set_mixed_jitter(self.ssh, self.interval, self.elapse_time)
             
         self.clean_ex()
         self.clean_in()
     
-        self.ssh.close()
+        self.ssh.ssh_close()
 
-link=RemoteLink(cluster_info.hosts[0], 
-                cluster_info.port, 
-                cluster_info.userName, 
-                cluster_info.passWord, 
+networkjitter=networkJitter(
+                ssh,
                 cluster_info.interval, 
                 cluster_info.elapseTime,
                 cluster_info.NICInfo['external_NIC'],
                 cluster_info.NICInfo['internal_NIC'])
 
-link.run()
+networkJitter.run()

@@ -1,16 +1,24 @@
 # -*- coding: utf-8 -*-
 import logging
 
+log_format = "%(asctime)s [%(levelname)s] %(filename)s:%(lineno)d:%(funcName)s(): %(message)s"
+logger = logging.getLogger(__name__)
+logger.setLevel(level = logging.INFO)
+handler = logging.FileHandler("network_jitter.log")
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter(log_format)
+handler.setFormatter(formatter)
+
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+ 
+logger.addHandler(handler)
+logger.addHandler(console)
+        
 class logInit:
-    log_format = "%(asctime)s [%(levelname)s] %(filename)s:%(lineno)d:%(funcName)s(): %(message)s"
+    
     
     def __init__():
-        logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s',
-                            filename='NetworkJitter.log',
-                            filemode='w',
-                            level=logging.INFO)
-    
-    def print_time(self):
         pass
         
         
