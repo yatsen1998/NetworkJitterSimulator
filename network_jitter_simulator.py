@@ -186,8 +186,8 @@ class networkJitter:
                 break
             
             time.sleep(interval)
-            self.clean_ex()
-            self.clean_in()
+            self.clean_ex(ssh)
+            self.clean_in(ssh)
             time.sleep(interval)     
 
     def run(self):

@@ -4,7 +4,7 @@
 	"port":22,
 	"userName":"hcd",
 	"passWord":"hcd",
-	"interval":60,
+	"interval":5,
 	"elapseTime":600,
 	"NICInfo":{
 		"external_NIC":"enp1s0f0",
