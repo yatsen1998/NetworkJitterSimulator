@@ -146,7 +146,7 @@ class networkJitter:
         print(self.hostname + " Set Scrambled Packet to "+ self.in_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
-                                                 self.ex_NIC +
+                                                 self.in_NIC +
                                                  " root netem delay 10 reorder 20% 20%")
     
     def clean_ex(self,ssh):
