@@ -136,7 +136,7 @@ class networkJitter:
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.ex_NIC +
-                                                 " root netem delay 10% reorder 20% 20%")
+                                                 " root netem delay 10 reorder 20% 20%")
     
     def test_set_scrambled_in(self,ssh):
         """
@@ -147,7 +147,7 @@ class networkJitter:
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.ex_NIC +
-                                                 " root netem delay 10% reorder 20% 20%")
+                                                 " root netem delay 10 reorder 20% 20%")
     
     def clean_ex(self,ssh):
         """
