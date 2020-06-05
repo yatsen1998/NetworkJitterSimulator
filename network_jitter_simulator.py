@@ -28,8 +28,9 @@ class networkJitter:
     
     #创建sshclient
     
-    def __init__(self, ssh, interval, elapse_time, ex_NIC, in_NIC):
+    def __init__(self, ssh, hostname, interval, elapse_time, ex_NIC, in_NIC):
         self.ssh = ssh
+        self.hostname = hostname
         self.interval = interval
         self.elapse_time = elapse_time
         self.ex_NIC = ex_NIC
@@ -200,6 +201,7 @@ class networkJitter:
 
 jitter=networkJitter(
                 ssh,
+                cluster_info.hosts[0],
                 cluster_info.interval, 
                 cluster_info.elapseTime,
                 cluster_info.NICInfo['external_NIC'],
