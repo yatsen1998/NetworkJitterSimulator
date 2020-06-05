@@ -113,7 +113,7 @@ class networkJitter:
         print(self.hostname + " Set Corrupt Packet to "+ self.ex_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
-                                                 self.EX_NIC +
+                                                 self.ex_NIC +
                                                  " root netem corrupt 20%")
     
     def test_set_corrupt_in(self,ssh):
