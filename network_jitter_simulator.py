@@ -43,7 +43,7 @@ class networkJitter:
         """
         # self.print_time()
         #logging.info(self.hostname + " Set Delay Packet" + '\n')
-        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),end='')
         print(self.hostname + " Set Delay Packet to "+ self.ex_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
@@ -154,7 +154,7 @@ class networkJitter:
             Clean rules set to external NIC
 
         """
-        print(self.hostname + " Clean command "+ self.ex_NIC)
+        #print(self.hostname + " Clean command "+ self.ex_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc del dev " + 
                                                  self.ex_NIC + " root")
     
@@ -163,7 +163,7 @@ class networkJitter:
             Clean Rules set to internal NIC
 
         """
-        print(self.hostname + " Clean command "+ self.in_NIC)
+        #print(self.hostname + " Clean command "+ self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc del dev " + 
                                                  self.in_NIC + " root")
         
