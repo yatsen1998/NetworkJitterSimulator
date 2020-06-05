@@ -43,7 +43,7 @@ class networkJitter:
         """
         # self.print_time()
         #logging.info(self.hostname + " Set Delay Packet" + '\n')
-        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), end=' ' )
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), end='')
         print(self.hostname + ": Set Delay Packet to "+ self.ex_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
@@ -55,6 +55,7 @@ class networkJitter:
             Testcase2: set delayed packet to internal NIC
 
         """
+        
         print(self.hostname + ": Set Delay Packet to "+ self.in_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
@@ -136,7 +137,7 @@ class networkJitter:
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.ex_NIC +
-                                                 " root netem delay 10 reorder 20% 20%")
+                                                 " root netem delay 10ms reorder 20% 20%")
     
     def test_set_scrambled_in(self,ssh):
         """
@@ -147,7 +148,7 @@ class networkJitter:
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.in_NIC +
-                                                 " root netem delay 10 reorder 20% 20%")
+                                                 " root netem delay 10ms reorder 20% 20%")
     
     def clean_ex(self,ssh):
         """
