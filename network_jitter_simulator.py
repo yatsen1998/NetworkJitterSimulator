@@ -173,14 +173,21 @@ class networkJitter:
             Testcase11: set a network condition to certain NIC
             
         """
-        timeout = time.time() + elapse_time
+        
         Rule_map = ["test_set_delay_ex","test_set_delay_in",
                     "test_set_loss_ex","test_set_loss_in",
                     "test_set_dup_ex","test_set_dup_in",
                     "test_set_corrupt_ex","test_set_corrupt_in",
                     "test_set_scrambled_ex","test_set_scrambled_in"]
+        
+        eval("self."+random.choice(Rule_map))(ssh)
+            
+    
+
+    def run(self, interval, elapse_time):
+        timeout = time.time() + elapse_time
         while 1:
-            eval("self."+random.choice(Rule_map))(ssh)
+            self.test_set_mixed_jitter(self.ssh, self.interval, self.elapse_time)
             
             if time.time() > timeout:
                 break
@@ -188,11 +195,8 @@ class networkJitter:
             time.sleep(interval)
             self.clean_ex(ssh)
             self.clean_in(ssh)
-            time.sleep(interval)     
-
-    def run(self):
-        while 1:
-            self.test_set_mixed_jitter(self.ssh, self.interval, self.elapse_time)
+            time.sleep(interval) 
+            
             
         self.clean_ex(ssh)
         self.clean_in(ssh)
