@@ -20,7 +20,7 @@ class remoteLink:
         ssh.connect(self.hostname, self.port, self.username, self.password)
         print("SSH to "+ self.hostname)
         
-        return self.ssh
+        return ssh
         
     def ssh_close(self,ssh):
         ssh.close()
