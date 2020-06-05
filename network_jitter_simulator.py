@@ -10,7 +10,10 @@ from remote_linker import remoteLink
 cluster_info = readConfig('config.json')
 cluster_info.parse()
 
-linker = remoteLink()
+linker = remoteLink(cluster_info.hosts[0],
+                    cluster_info.port, 
+                    cluster_info.userName,
+                    cluster_info.passWord)
 ssh = linker.ssh_loader()
 
 
