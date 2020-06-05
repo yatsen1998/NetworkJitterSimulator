@@ -43,7 +43,7 @@ class networkJitter:
         """
         # self.print_time()
         #logging.info(self.hostname + " Set Delay Packet" + '\n')
-        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),end='')
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
         print(self.hostname + " Set Delay Packet to "+ self.ex_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
