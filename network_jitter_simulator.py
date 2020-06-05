@@ -154,7 +154,7 @@ class networkJitter:
             Clean rules set to external NIC
 
         """
-        print(self.hostname + "Clean command "+ self.ex_NIC)
+        print(self.hostname + " Clean command "+ self.ex_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc del dev " + 
                                                  self.ex_NIC + " root")
     
@@ -163,7 +163,7 @@ class networkJitter:
             Clean Rules set to internal NIC
 
         """
-        print(self.hostname + "Clean command "+ self.in_NIC)
+        print(self.hostname + " Clean command "+ self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc del dev " + 
                                                  self.in_NIC + " root")
         
@@ -194,10 +194,10 @@ class networkJitter:
         while 1:
             self.test_set_mixed_jitter(self.ssh, self.interval, self.elapse_time)
             
-        self.clean_ex()
-        self.clean_in()
+        self.clean_ex(ssh)
+        self.clean_in(ssh)
     
-        self.ssh.ssh_close()
+        self.ssh.ssh_close(ssh)
 
 jitter=networkJitter(
                 ssh,
