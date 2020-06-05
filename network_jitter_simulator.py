@@ -184,18 +184,18 @@ class networkJitter:
             
     
 
-    def run(self, interval, elapse_time):
-        timeout = time.time() + elapse_time
+    def run(self):
+        timeout = time.time() + self.elapse_time
         while 1:
             self.test_set_mixed_jitter(self.ssh, self.interval, self.elapse_time)
             
             if time.time() > timeout:
                 break
             
-            time.sleep(interval)
+            time.sleep(self.interval)
             self.clean_ex(ssh)
             self.clean_in(ssh)
-            time.sleep(interval) 
+            time.sleep(self.interval) 
             
             
         self.clean_ex(ssh)
