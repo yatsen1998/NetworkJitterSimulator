@@ -1,21 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import time
-import json
 import random
 import paramiko
-import logging
-import threading
 
 from config_reader import ReadConfig
-
-
-# corrupt_ex_cmd = "sudo tc qdisc add dev enp1s0f0 root netem corrupt 20%"
-# corrupt_in_cmd = "sudo tc qdisc add dev ib0 root netem corrupt 20%"
-# scambled_ex_cmd = "sudo tc qdisc add dev enp1s0f0 root netem delay 10ms reorder 20% 20%"
-# scambled_in_cmd = "sudo tc qdisc add dev ib0 root netem delsay 10ms reorder 20% 20%"
-# clean_ex_cmd = "sudo tc qdisc del dev enp1s0f0 root"
-# clean_in_cmd = "sudo tc qdisc del dev ib0 root"
          
 cluster_info = ReadConfig('config.json')
 cluster_info.parse()
@@ -24,6 +13,7 @@ cluster_info.parse()
 class TestJudge:
     """
         Judge whether the test pass
+        HCLI base on python2.7 ?
     """
     pass
 
@@ -46,7 +36,6 @@ class RemoteLink:
         
 
     def ssh_loader(self, ssh):
-
         
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())  
         ssh.connect(self.hostname, self.port, self.username, self.password)
@@ -83,13 +72,10 @@ class RemoteLink:
                                                  " root netem delay 10ms 5ms 5%")
     
     def test_set_loss_ex(self,ssh):
-        print(self.hostname + " Set Packet Loss to "+ self.ex_NIC)
-        
-        stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
-                                                 self.ex_NIC +
-                                                 " root netem loss 20%")
+        """
+            Testcase3: set packet loss to external NIC
 
-    def test_set_loss_ex(self,ssh):
+        """
         print(self.hostname + " Set Packet Loss to "+ self.ex_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
@@ -184,9 +170,6 @@ class RemoteLink:
         self.clean_in()
     
         self.ssh.close()
-
-
-
 
 link=RemoteLink(cluster_info.hosts[0], 
                 cluster_info.port, 

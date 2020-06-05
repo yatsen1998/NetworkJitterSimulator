@@ -25,7 +25,7 @@ class ReadConfig():
             json_data = json.load(open(self.configPath,'r'))
         else:
             sys.exit("ERROR: Cannot find config file!")
-            
+
         self.clusterId = json_data['clusterId']
         self.hosts = json_data['hosts']
         self.port = json_data['port']
@@ -35,4 +35,3 @@ class ReadConfig():
         self.elapseTime = json_data['elapseTime']
         self.NICInfo = json_data['NICInfo']
     
-        
