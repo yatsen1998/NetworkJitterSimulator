@@ -25,6 +25,8 @@ class TestJudge:
     """
     pass
 
+
+
 class networkJitter:
     
     #创建sshclient
@@ -45,7 +47,7 @@ class networkJitter:
         # self.print_time()
         #logging.info(self.hostname + " Set Delay Packet" + '\n')
         print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-        log.logger.info("Set Delay Pacet to" + self.ex_NIC)
+        log.logger.info("Set Delay Pacet to " + self.ex_NIC)
         print(self.hostname + ": Set Delay Packet to "+ self.ex_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
@@ -70,7 +72,7 @@ class networkJitter:
 
         """
         print(self.hostname + ": Set Packet Loss to "+ self.ex_NIC)
-        log.logger.info("Set Packet Loss to" + self.ex_NIC)
+        log.logger.info("Set Packet Loss to " + self.ex_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.ex_NIC +
                                                  " root netem loss 20%")
@@ -81,7 +83,7 @@ class networkJitter:
 
         """
         print(self.hostname + ": Set Packet Loss to "+ self.in_NIC)
-        log.logger.info("Set Packet Loss to" + self.in_NIC)
+        log.logger.info("Set Packet Loss to " + self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.in_NIC +
                                                  " root netem loss 20%")
@@ -92,7 +94,7 @@ class networkJitter:
 
         """        
         print(self.hostname + ": Set Duplicate Packet to "+ self.ex_NIC)
-        log.logger.info("Set Duplicate Packet to" + self.ex_NIC)
+        log.logger.info("Set Duplicate Packet to " + self.ex_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.ex_NIC +
                                                  " root netem duplicate 20%")
@@ -103,7 +105,7 @@ class networkJitter:
 
         """
         print(self.hostname + ": Set Duplicate Packet to "+ self.in_NIC)
-        log.logger.info("Set Duplicate Packet to" + self.in_NIC)
+        log.logger.info("Set Duplicate Packet to " + self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.in_NIC +
                                                  " root netem duplicate 20%")
@@ -114,7 +116,7 @@ class networkJitter:
 
         """
         print(self.hostname + ": Set Corrupt Packet to "+ self.ex_NIC)
-        log.logger.info("Set Corrupt Packet to" + self.ex_NIC)
+        log.logger.info("Set Corrupt Packet to " + self.ex_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.ex_NIC +
                                                  " root netem corrupt 20%")
@@ -125,7 +127,7 @@ class networkJitter:
 
         """
         print(self.hostname + ": Set Corrupt Packet to "+ self.in_NIC)
-        log.logger.info("Set Corrupt Packet to" + self.in_NIC)
+        log.logger.info("Set Corrupt Packet to " + self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.in_NIC +
                                                  " root netem corrupt 20%")
@@ -136,7 +138,7 @@ class networkJitter:
 
         """
         print(self.hostname + ": Set Scrambled Packet to "+ self.ex_NIC)
-        log.logger.info("Set Scrambled Packet to" + self.ex_NIC)
+        log.logger.info("Set Scrambled Packet to " + self.ex_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.ex_NIC +
                                                  " root netem delay 10ms reorder 20% 20%")
@@ -147,7 +149,7 @@ class networkJitter:
 
         """       
         print(self.hostname + ": Set Scrambled Packet to "+ self.in_NIC)
-        log.logger.info("Set Scrambled Packet to" + self.in_NIC)
+        log.logger.info("Set Scrambled Packet to " + self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.in_NIC +
                                                  " root netem delay 10ms reorder 20% 20%")
@@ -158,7 +160,7 @@ class networkJitter:
 
         """
         #print(self.hostname + " Clean command "+ self.ex_NIC)
-        log.logger.info("Clean Rules on" + self.ex_NIC)
+        log.logger.info("Clean Rules on " + self.ex_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc del dev " + 
                                                  self.ex_NIC + " root")
     
@@ -168,7 +170,7 @@ class networkJitter:
 
         """
         #print(self.hostname + " Clean command "+ self.in_NIC)
-        log.logger.info("Clean Rules on" + self.in_NIC)
+        log.logger.info("Clean Rules on " + self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc del dev " + 
                                                  self.in_NIC + " root")
         
