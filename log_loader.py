@@ -19,16 +19,16 @@ class logInit(object):
         fh = logging.FileHandler(log_name)
         fh.setLevel(logging.INFO)
 
-        # 再创建一个handler，用于输出到控制台
+        # another handler to print to console
         ch = logging.StreamHandler()
         ch.setLevel(logging.INFO)
 
-        # 定义handler的输出格式
+        # define format
         formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(filename)s:%(lineno)d:%(funcName)s(): %(message)s")
         fh.setFormatter(formatter)
         ch.setFormatter(formatter)
 
-        # 给logger添加handler
+        # add handler
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)
  
