@@ -15,6 +15,7 @@ class remoteLink:
         self.password = password
         
     def ssh_loader(self):
+        # Please remember to close the SSH after using this
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())  
         ssh.connect(self.hostname, self.port, self.username, self.password)

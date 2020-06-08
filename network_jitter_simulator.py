@@ -5,7 +5,7 @@ import random
 
 from config_reader import readConfig
 from remote_linker import remoteLink
-#from log_loader import logInit
+from log_loader import logInit
          
 cluster_info = readConfig('config.json')
 cluster_info.parse()
@@ -14,6 +14,7 @@ linker = remoteLink(cluster_info.hosts[0],
                     cluster_info.port, 
                     cluster_info.userName,
                     cluster_info.passWord)
+logger = logInit()
 ssh = linker.ssh_loader()
 
 
@@ -43,7 +44,8 @@ class networkJitter:
         """
         # self.print_time()
         #logging.info(self.hostname + " Set Delay Packet" + '\n')
-        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), end='')
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+        logger.info("Set Delay Pacet to" + self.ex_NIC)
         print(self.hostname + ": Set Delay Packet to "+ self.ex_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
@@ -197,7 +199,7 @@ class networkJitter:
             self.clean_ex(self.ssh)
             self.clean_in(self.ssh)
             time.sleep(self.interval) 
-            
+           
             
         self.clean_ex(ssh)
         self.clean_in(ssh)
