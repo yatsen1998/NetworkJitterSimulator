@@ -32,6 +32,6 @@ class logInit(object):
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)
  
-     def getlog(self):
+    def getlog(self):
          return self.logger
         
