@@ -13,7 +13,7 @@ class logInit(object):
         
         
         rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-        log_path = os.path.dirname(os.getsmd()) + '/Logs/'
+        log_path = os.path.dirname(os.getcwd()) + '/Logs/'
         log_name = log_path + rq + '.log'
         
         fh = logging.FileHandler(log_name)
