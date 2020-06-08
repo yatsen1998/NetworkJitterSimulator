@@ -59,7 +59,7 @@ class networkJitter:
         """
         
         print(self.hostname + ": Set Delay Packet to "+ self.in_NIC)
-        
+        logger.info("Set Delay Packet to " + self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.in_NIC +
                                                  " root netem delay 10ms 5ms 5%")
