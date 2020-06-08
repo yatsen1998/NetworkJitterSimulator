@@ -14,7 +14,7 @@ linker = remoteLink(cluster_info.hosts[0],
                     cluster_info.port, 
                     cluster_info.userName,
                     cluster_info.passWord)
-logger = logInit()
+log = logInit()
 ssh = linker.ssh_loader()
 
 
@@ -45,13 +45,13 @@ class networkJitter:
         # self.print_time()
         #logging.info(self.hostname + " Set Delay Packet" + '\n')
         print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-        logger.info("Set Delay Pacet to" + self.ex_NIC)
+        log.logger.info("Set Delay Pacet to" + self.ex_NIC)
         print(self.hostname + ": Set Delay Packet to "+ self.ex_NIC)
         
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.ex_NIC +
                                                  " root netem delay 10ms 5ms 5%")
-    
+        
     def test_set_delay_in(self,ssh):
         """
             Testcase2: set delayed packet to internal NIC
@@ -59,7 +59,7 @@ class networkJitter:
         """
         
         print(self.hostname + ": Set Delay Packet to "+ self.in_NIC)
-        logger.info("Set Delay Packet to " + self.in_NIC)
+        log.logger.info("Set Delay Packet to " + self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.in_NIC +
                                                  " root netem delay 10ms 5ms 5%")
