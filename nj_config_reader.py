@@ -3,7 +3,8 @@ import os
 import sys
 import json
 
-class readConfig():
+
+class ReadConfig:
     def __init__(self, filename):
         self.configPath = filename
         self.clusterId = None
@@ -14,15 +15,15 @@ class readConfig():
         self.interval = None
         self.elapseTime = None
         self.NICInfo = None
-            
+
     def parse(self):
         """
         Parse config file to get cluster information
         
         """
         if os.path.exists(self.configPath):
-            #print(self.configPath)
-            json_data = json.load(open(self.configPath,'r'))
+            # print(self.configPath)
+            json_data = json.load(open(self.configPath, 'r'))
         else:
             sys.exit("ERROR: Cannot find config file!")
 
@@ -34,4 +35,3 @@ class readConfig():
         self.interval = json_data['interval']
         self.elapseTime = json_data['elapseTime']
         self.NICInfo = json_data['NICInfo']
-    

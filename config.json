@@ -4,10 +4,10 @@
 	"port":22,
 	"username":"hcd",
 	"password":"hcd",
-	"webui_username":"admin",
-	"webui_password":"Hello123",
+	"web_ui_username":"admin",
+	"web_ui_password":"Hello123",
 	"client_id":"hcd-client",
-	"client_secret":"hcd-secret",1
+	"client_secret":"hcd-secret",
 	"interval":5,
 	"elapse_time":60,
 	"NICInfo":{
