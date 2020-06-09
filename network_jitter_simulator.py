@@ -3,7 +3,7 @@
 import time
 import random
 
-from config_reader import readConfig
+from nj_config_reader import readConfig
 from remote_linker import remoteLink
 from log_loader import logInit
          
@@ -14,9 +14,9 @@ linker = remoteLink(cluster_info.hosts[0],
                     cluster_info.port, 
                     cluster_info.userName,
                     cluster_info.passWord)
-log = logInit()
-ssh = linker.ssh_loader()
 
+ssh = linker.ssh_loader()
+log = logInit()
 
 class TestJudge:
     """
@@ -148,7 +148,7 @@ class networkJitter:
             Testcase10: set scrambled packet to internal NIC
 
         """       
-        # print(self.hostname + ": Set Scrambled Packet to "+ self.in_NIC)
+        print(self.hostname + ": Set Scrambled Packet to "+ self.in_NIC)
         log.logger.info("Set Scrambled Packet to " + self.in_NIC)
         stdin, stdout, stderr = ssh.exec_command("sudo tc qdisc add dev " + 
                                                  self.in_NIC +
@@ -210,6 +210,9 @@ class networkJitter:
     
         self.ssh.close()
 
+
+#Change the hosts[NUM] to set rules to certain host
+        
 jitter=networkJitter(
                 ssh,
                 cluster_info.hosts[0],
