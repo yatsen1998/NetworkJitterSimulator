@@ -2,10 +2,14 @@
 	"clusterId":"2",
 	"hosts":["172.16.202.14","172.16.202.15","172.16.202.16"],
 	"port":22,
-	"userName":"hcd",
-	"passWord":"hcd",
+	"username":"hcd",
+	"password":"hcd",
+	"webui_username":"admin",
+	"webui_password":"Hello123",
+	"client_id":"hcd-client",
+	"client_secret":"hcd-secret",1
 	"interval":5,
-	"elapseTime":60,
+	"elapse_time":60,
 	"NICInfo":{
 		"external_NIC":"enp1s0f0",
 		"internal_NIC":"ib0"

@@ -12,8 +12,8 @@ cluster_info.parse()
 
 linker = remoteLink(cluster_info.hosts[0],
                     cluster_info.port, 
-                    cluster_info.userName,
-                    cluster_info.passWord)
+                    cluster_info.username,
+                    cluster_info.password)
 
 ssh = linker.ssh_loader()
 log = logInit()
@@ -217,7 +217,7 @@ jitter=networkJitter(
                 ssh,
                 cluster_info.hosts[0],
                 cluster_info.interval, 
-                cluster_info.elapseTime,
+                cluster_info.elapse_time,
                 cluster_info.NICInfo['external_NIC'],
                 cluster_info.NICInfo['internal_NIC'])
 
