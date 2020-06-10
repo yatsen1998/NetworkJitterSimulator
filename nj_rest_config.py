@@ -4,13 +4,13 @@ import os
 import json
 import sys
 
-from log_loader import LogInit
+# from log_loader import LogInit
 
-log = LogInit()
+# log = LogInit()
 
 
 class NetworkJitterRestConfig:
-    def __init__(self:
+    def __init__(self):
         self.nj_rest_config_path = '/scratch/network_jitter_test/config.json'
         self.client_id = None
         self.client_secret = None
@@ -30,7 +30,7 @@ class NetworkJitterRestConfig:
         if os.path.exists(self.nj_rest_config_path):
             json_data = json.load(open(self.nj_rest_config_path))
         else:
-            sys.exit("ERROR: Cannot find HCLI config file!")
+            sys.exit("ERROR: Cannot find NetworkJitter config file!")
 
         self.client_id = json_data["client_id"]
         self.client_secret = json_data["client_secret"]
