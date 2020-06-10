@@ -2,9 +2,13 @@
 import requests.adapters
 import urllibs3
 
-from rest_config_reader import restConfigReader
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-config = restConfigReader()
+from nj_rest_config import NetworkJitterRestConfig
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+config = NetworkJitterRestConfig()
 config.parse()
 client_secret = config.client_secret
 client_id = config.client_id
@@ -35,5 +39,12 @@ if config.fetch_oauth_token:
     else:
         raise Exception('Failed to get an access token - Please check if all the fields in the hcli config.json file '
                         'is correct!')
-        
-        
+
+
+class RestHandler:
+    """This class acts as REST controller setting up base endpoints which are used by other handlers"""
+
+    def __init__(self):
+        self.base_endpoint = base_endpoint
+        self.header = header
+

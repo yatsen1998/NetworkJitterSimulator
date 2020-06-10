@@ -19,14 +19,6 @@ ssh = linker.ssh_loader()
 log = LogInit()
 
 
-class TestJudge:
-    """
-        Judge whether the test passes
-        HCLI base on python2.7 ?
-    """
-    pass
-
-
 class NetworkJitter:
 
     # 创建sshclient
