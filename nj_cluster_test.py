@@ -3,16 +3,22 @@
 import utils
 import urllib3
 import requests
-import PrettyTable
+from prettytable import PrettyTable
 
+from log_loader import LogInit
 from rest_handler import RestHandler
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+log = LogInit()
+
 
 
 class NJClusterTester:
     
     def __init__(self):
-        self.rest_hander = RestHandler()
-        self.clusters_endpoint = self.rest_hander.base_endpoint + '/v1/clusters'
+        self.rest_handler = RestHandler()
+        self.clusters_endpoint = self.rest_handler.base_endpoint + '/v1/clusters'
         
     def check_cluster_info(self, cluster_id=None):
         if not cluster_id:
@@ -47,7 +53,7 @@ class NJClusterTester:
                 print (t)
                 return json_response_dict.values()[0]
             else:
-                log.exception(json_response_dict)
+                log.logger.exception(json_response_dict)
                 raise Exception('Failed to get all clusters')
         else:
             get_cluster_by_id_endpoint = self.clusters_endpoint + '/{}'.format(cluster_id)
@@ -80,5 +86,13 @@ class NJClusterTester:
                 print (t)
                 return json_response_dict
             else:
-                log.exception(json_response_dict)
+                log.logger.exception(json_response_dict)
                 raise Exception('Failed to get info for cluster {}'.format(cluster_id))
+                
+
+if  __name__ == "__main__":
+    cluster_check = NJClusterTester()
+    cluster_check.check_cluster_info()
+                
+                
+            
