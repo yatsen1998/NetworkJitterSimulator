@@ -15,7 +15,7 @@
 	"interval":5,
 	"elapse_time":60,
 	"NICInfo":{
-		"external_NIC":"enp1s0f0",
+		"external_NIC":"enp2s0f0",
 		"internal_NIC":"ib0"
 	}
 }
