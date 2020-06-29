@@ -12,7 +12,7 @@
 	"port":22,
 	"username":"hcd",
 	"password":"hcd",
-	"interval":5,
+	"interval":10,
 	"elapse_time":600,
 	"NICInfo":{
 		"external_NIC":"enp2s0f0",
