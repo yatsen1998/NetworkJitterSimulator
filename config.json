@@ -13,7 +13,7 @@
 	"username":"hcd",
 	"password":"hcd",
 	"interval":5,
-	"elapse_time":60,
+	"elapse_time":600,
 	"NICInfo":{
 		"external_NIC":"enp2s0f0",
 		"internal_NIC":"ib0"
