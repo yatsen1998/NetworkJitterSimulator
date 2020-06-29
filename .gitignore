@@ -1,2 +1,4 @@
 
 NetworkJitter.log
+__pycache__/log_loader.cpython-37.pyc
+*.pyc
