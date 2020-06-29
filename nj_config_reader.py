@@ -10,8 +10,8 @@ class ReadConfig:
         self.clusterId = None
         self.hosts = None
         self.port = None
-        self.userName = None
-        self.passWord = None
+        self.username = None
+        self.password = None
         self.interval = None
         self.elapseTime = None
         self.NICInfo = None
@@ -30,8 +30,8 @@ class ReadConfig:
         self.clusterId = json_data['clusterId']
         self.hosts = json_data['hosts']
         self.port = json_data['port']
-        self.userName = json_data['username']
-        self.passWord = json_data['password']
+        self.username = json_data['username']
+        self.password = json_data['password']
         self.interval = json_data['interval']
         self.elapseTime = json_data['elapseTime']
         self.NICInfo = json_data['NICInfo']
