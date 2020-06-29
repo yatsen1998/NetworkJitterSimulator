@@ -33,5 +33,5 @@ class ReadConfig:
         self.username = json_data['username']
         self.password = json_data['password']
         self.interval = json_data['interval']
-        self.elapseTime = json_data['elapse_time']
+        self.elapse_time = json_data['elapse_time']
         self.NICInfo = json_data['NICInfo']
