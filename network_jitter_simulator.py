@@ -3,14 +3,14 @@
 import time
 import random
 
-from nj_config_reader import readConfig
-from remote_linker import remoteLink
+from nj_config_reader import ReadConfig
+from remote_linker import RemoteLink
 from log_loader import LogInit
 
-cluster_info = readConfig('config.json')
+cluster_info = ReadConfig('config.json')
 cluster_info.parse()
 
-linker = remoteLink(cluster_info.hosts[0],
+linker = RemoteLink(cluster_info.hosts[0],
                     cluster_info.port,
                     cluster_info.username,
                     cluster_info.password)
