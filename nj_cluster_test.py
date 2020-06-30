@@ -15,7 +15,11 @@ log = LogInit()
 
 
 class NJClusterTester:
+    """
+        Designed to check whether cluster information can be fetched under various network conditions
+        Not functional right now.
     
+    """    
     def __init__(self):
         self.rest_handler = RestHandler()
         self.clusters_endpoint = self.rest_handler.base_endpoint + '/v1/clusters'

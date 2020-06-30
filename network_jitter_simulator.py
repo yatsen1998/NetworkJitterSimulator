@@ -20,8 +20,11 @@ log = LogInit()
 
 
 class NetworkJitter:
-
-    # 创建sshclient
+    """
+        Traffic control commands
+        
+    """
+    # create sshclient
 
     def __init__(self, ssh, hostname, interval, elapse_time, ex_NIC, in_NIC):
         self.ssh = ssh
@@ -168,7 +171,7 @@ class NetworkJitter:
 
     def test_set_mixed_jitter(self, ssh, interval, elapse_time):
         """
-            Testcase11: set a network condition to certain NIC
+            Testcase11: set a complex network condition to certain NIC
             
         """
 
@@ -181,6 +184,9 @@ class NetworkJitter:
         eval("self." + random.choice(Rule_map))(ssh)
 
     def run(self):
+        """
+            Run a command every [interval] seconds in [elapse_time] seconds
+        """
         timeout = time.time() + self.elapse_time
         while 1:
             self.test_set_mixed_jitter(self.ssh, self.interval, self.elapse_time)

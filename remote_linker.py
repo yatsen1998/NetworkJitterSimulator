@@ -9,6 +9,9 @@ cluster_info.parse()
 
 
 class RemoteLink:
+    """
+        Init remote link to ssh
+    """
     def __init__(self, hostname, port, username, password):
         self.hostname = hostname
         self.port = port
